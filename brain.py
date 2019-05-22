@@ -13,7 +13,7 @@ class Brain():
         i = 111111111
         while(i < 333333334): 
         # We will look for each number to see if it is a possible combination of grid
-        # I know that this solution is not optimal and that many will be tested for nothing, but I have not found how to do better.
+        # I know that this solution is not optimal and that many will be tested for nothing, but I have not found better way to do it.
             j = 0
             result = 0
             string_i = str(i)
@@ -30,7 +30,7 @@ class Brain():
                 self.matrix.append(line) # Add the line to the matrix
             i = i + 1
         # We need to save the matrix to the file
-        file = open(path, "w")
+        file = open(path, "w+")
         for i in range (len(self.matrix)):
             for j in range (9):
                 file.write(str(self.matrix[i][j]))
