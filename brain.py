@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
+import random
 
 class Brain():
     def __init__(self):
         self.matrix=[]
+        self.victoryCount = 0
+        self.defeatCount = 0
 
     # This function allows you to create an initial file that will serve as a "brain". It takes as a "path" argument that defines the path of the file. 
     # Because it is a Numpy object, we could have used the save function, but this will allow us to have a readable file. 
@@ -51,4 +54,62 @@ class Brain():
             data = list(map(float, data))
             self.matrix.append(data)
         file.close()
+
+    # Function which save the brain, we will use it to save our matrix after training.  It takes as a "path" argument that defines the path of the file. 
+    def save_brain(self, path):
+        file = open(path, "w")
+        for (i in range (len(self.matrix))):
+            for j in range (9):
+                file.write(str(self.atrix[i][j]))
+                file.write(" ")
+            file.write(str(self.matrix[i][9]))
+            file.write("\n")
+        file.close()
+
+    # The variable grid is the square grid containing nine squares arranged in threes. it's a number between 111111111 and 333333333
+    def next_move(self, grid):
+        
+        a = 0 # a et b are the two boundaries of the dichotomy
+        b = len(self.matrix)
+        while(self.matrix[a][0] != grid or self.matrix[b][0] != grid):
+            c = int((a+b)/2) # We take the line approximatly in the middle
+            # We'll look where "c" is in relation to "grid" 
+            if(self.matrix[c][0] > grid):
+                b = c
+            else: 
+                a = c
+        if(self.matrix[a][0] == grid):
+            line = a
+        else:
+            line = b
+        # End of the dichotomy
+        sum = 0
+        for( i in range (1, 10)):
+            sum = sum + self.matrice[line][i]
+        n = random.uniform(1.000000001, int(sum)+1)
+        sum = self.matrix[line][1]
+        i = 1
+        while(n > sum + 1 and i < 9):
+            i = i + 1
+            sum = sum +self.matrix[line][i]
+
+        return i, line
+
+    # Function that will update the brain according to the result of the game. 
+    # The "result" variable represents the result (0 = defeat, 1 = equality and 2 = victory). 
+    # "Move" represents the moves that were played during the game.
+    def update_brain(self, result, move = []):
+        if(result == 0): # If defeat
+            for i in move:
+                self.matrix[i[1]][i[0]] = self.matrix[i[1]][i[0]]*(1-DICHOTOMYRATE) + 0.00000001
+        elif(result == 1): # If equality
+            for i in move:
+                self.matrix[i[1]][i[0]] = self.matrix[i[1]][i[0]]*(1-DICHOTOMYRATE) + 30*DICHOTOMYRATE
+        else:
+            for i in move:
+                self.matrix[i[1]][i[0]] = self.matrix[i[1]][i[0]]*(1-DICHOTOMYRATE) + 100*DICHOTOMYRATE
+    
+
+
+
 
